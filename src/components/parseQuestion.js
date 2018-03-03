@@ -1,21 +1,21 @@
-import { knowledgeKeys } from '../components/knowledge';
-import * as natural      from 'natural';
-// import cannedResponses from '../constants/cannedResponses';
+import * as natural                 from 'natural';
+import knowledge, { knowledgeKeys } from '../constants/knowledge';
 
 export default (classifiedQuestion) => {
   const { subject } = classifiedQuestion;
 
   const parsedQuestion = {
+    classifiedQuestion,
     interrogative : subject,
-    subjectStem   : null,
+    knowledgeStem : null,
     timeframe     : null,
   };
 
   natural.LancasterStemmer.attach();
-  const subjectStems = subject.tokenizeAndStem();
-  console.log('You are asking about: ', subjectStems);
+  parsedQuestion.subjectStems = subject.tokenizeAndStem();
+  console.log('You are asking about: ', parsedQuestion.subjectStems, '\n');
 
-  if (subjectStems.length < 1) return parsedQuestion;
+  if (parsedQuestion.subjectStems.length < 1) return parsedQuestion;
 
   /*
   Here it seems to make sense to classify questions into a few categories to be able to reason
@@ -26,7 +26,7 @@ export default (classifiedQuestion) => {
   */
 
   /*
-  State Questions
+  Current State Questions
 
   Asking about state usually includes a subject and a timeframe:
 
@@ -37,9 +37,12 @@ export default (classifiedQuestion) => {
   For now we can assume the subject will come first
   */
 
-  for (let n = 0; n < subjectStems.length; n++) {
-    if (knowledgeKeys.includes(subjectStems[n])) {
-      parsedQuestion.subjectStem = subjectStems[n];
+  // Iterate through stems in the
+  for (let n = 0; n < parsedQuestion.subjectStems.length; n++) {
+    if (knowledgeKeys.includes(parsedQuestion.subjectStems[n])) {
+      parsedQuestion.knowledgeStem = parsedQuestion.subjectStems[n];
+      parsedQuestion.action = knowledge[parsedQuestion.subjectStems[n]];
+      break;
     }
   }
 
