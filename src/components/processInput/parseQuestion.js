@@ -1,8 +1,9 @@
 import * as natural              from 'natural';
-import knowledge, { knownStems } from '../constants/knowledge';
+import knowledge, { knownStems } from '../../constants/knowledge';
+import log                       from '../../lib/log';
 
 export default (classifiedQuestion) => {
-  const { subject } = classifiedQuestion;
+  const { owner, subject } = classifiedQuestion;
 
   const parsedQuestion = {
     classifiedQuestion,
@@ -14,8 +15,10 @@ export default (classifiedQuestion) => {
 
   natural.LancasterStemmer.attach();
   parsedQuestion.subjectStems = subject.tokenizeAndStem();
-  // eslint-disable-next-line no-console
-  console.log('You are asking about: ', parsedQuestion.subjectStems, '\n');
+  parsedQuestion.ownerStems   = owner.tokenizeAndStem();
+
+  log('You are asking about: ', parsedQuestion.subjectStems, '\n');
+  log('Owned by: ', parsedQuestion.ownerStems, '\n');
 
   if (parsedQuestion.subjectStems.length < 1) return parsedQuestion;
 

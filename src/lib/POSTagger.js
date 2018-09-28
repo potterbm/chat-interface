@@ -1,5 +1,5 @@
 import natural from 'natural';
-import path from 'path';
+import path    from 'path';
 
 const BASE_FOLDER = path.join(path.dirname(require.resolve('natural')), 'brill_pos_tagger');
 const rulesFilename = `${BASE_FOLDER}/data/English/tr_from_posjs.txt`;

@@ -26,6 +26,7 @@
     "no-param-reassign"            : [2, { props: false }],
     "no-restricted-globals"        : [2, "event"],
     "prefer-const"                 : 2,
+    "function-paren-newline"       : [2, "consistent"],
 
     "max-len": [2, {
       "code"           : 100,

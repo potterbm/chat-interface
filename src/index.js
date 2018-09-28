@@ -1,8 +1,7 @@
-import getShell from './components/shell';
-import prompt from './constants/prompt';
+import getShell   from './components/shell';
 
 let shell = null;
 
-shell = getShell(process, () => shell.prompt(prompt));
+shell = getShell(() => shell.prompt());
 
 shell.prompt();

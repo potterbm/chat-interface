@@ -14,8 +14,11 @@ const COLOR = {
 /*
 * Helper functions
 */
-const color = (colorToUse, text) => {
-  console.log(`${COLOR[colorToUse]}${text}${COLOR.reset}`); // eslint-disable-line no-console
+const color = (colorToUse, ...text) => {
+  process.stdout.write(COLOR[colorToUse]);
+  console.log(...text); // eslint-disable-line no-console
+  process.stdout.write(COLOR.reset);
+  // console.log(`${COLOR[colorToUse]}${text}${COLOR.reset}`); // eslint-disable-line no-console
 };
 
 // const blue    = color.bind(this, 'blue');
@@ -26,5 +29,5 @@ const color = (colorToUse, text) => {
 const yellow  = color.bind(this, 'yellow');
 
 export default (...args) => {
-  yellow(...args);
+  yellow('\n', ...args, '\n');
 };

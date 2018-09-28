@@ -1,12 +1,18 @@
-import auxiliaryVerbs from '../constants/auxiliaryVerbs';
-import questionWords  from '../constants/questionWords';
+import auxiliaryVerbs from '../../constants/auxiliaryVerbs';
+import questionWords  from '../../constants/questionWords';
 
 function indexOfPOS(taggedTokens, pos) {
   return taggedTokens.findIndex((array) => array[1].includes(pos));
 }
 
+function findAuxiliaryVerbIndex(taggedTokens) {
+  return taggedTokens.findIndex(
+    (array) => array[1].includes('VB') && auxiliaryVerbs.includes(array[0]),
+  );
+}
+
 function subjectVerbInversion(taggedTokens) {
-  const verbIndex = indexOfPOS(taggedTokens, 'VB');
+  const verbIndex = findAuxiliaryVerbIndex(taggedTokens);
   const subjectIndex = indexOfPOS(taggedTokens, 'PRP');
 
   return verbIndex < subjectIndex && auxiliaryVerbs.includes(taggedTokens[verbIndex][0]);
