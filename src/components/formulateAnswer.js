@@ -7,13 +7,13 @@ export default async (parsedQuestion) => {
     return displayMessage(cannedResponses.question.confusion);
   }
 
-  if (parsedQuestion.action === null) {
+  if (parsedQuestion.knowledgeGroup === null) {
     return displayMessage(cannedResponses.question.ignorance);
   }
 
-  const answer = parsedQuestion.action(parsedQuestion);
+  const answer = parsedQuestion.knowledgeGroup.action(parsedQuestion);
 
-  // If the answer is a promise, display a little
+  // If the answer is a promise, delay a little
   if (typeof answer.then === 'function') {
     displayMessage(cannedResponses.delay.searching);
     await answer;

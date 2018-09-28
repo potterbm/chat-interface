@@ -15,7 +15,7 @@ const COLOR = {
 * Helper functions
 */
 const color = (colorToUse, text) => {
-  console.log(`${COLOR[colorToUse]}${text}${COLOR.reset}`);
+  console.log(`${COLOR[colorToUse]}${text}${COLOR.reset}`); // eslint-disable-line no-console
 };
 
 // const blue    = color.bind(this, 'blue');

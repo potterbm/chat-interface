@@ -1,10 +1,22 @@
 import actions from '../actions';
 
-/* a map of stems to actions */
-const thingsIKnow = {
-  everyth : actions.getSystemStatus,
+export const knowledgeGroups = {
+  status : {
+    action : actions.getSystemStatus,
+  },
+
+  joke : {
+    action : actions.tellJoke,
+  },
 };
 
-export const knowledgeKeys = Object.keys(thingsIKnow);
+/* a map of stems to knowledge groups */
+const stemMapping = {
+  everyth : knowledgeGroups.status,
+  jok     : knowledgeGroups.joke,
+  server  : knowledgeGroups.status,
+};
 
-export default thingsIKnow;
+export const knownStems = Object.keys(stemMapping);
+
+export default stemMapping;
