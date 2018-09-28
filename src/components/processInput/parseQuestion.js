@@ -1,26 +1,28 @@
 import * as natural              from 'natural';
+import detectTimeframe           from './detectTimeframe';
 import knowledge, { knownStems } from '../../constants/knowledge';
 import log                       from '../../lib/log';
 
-export default (classifiedQuestion) => {
-  const { owner, subject } = classifiedQuestion;
+export default (classifiedInput) => {
+  const { owner, subject } = classifiedInput;
 
   const parsedQuestion = {
-    classifiedQuestion,
-    interrogative  : subject,
+    classifiedInput,
     knowledgeGroup : null,
     knowledgeStem  : null,
     timeframe      : null,
   };
 
   natural.LancasterStemmer.attach();
-  parsedQuestion.subjectStems = subject.tokenizeAndStem();
-  parsedQuestion.ownerStems   = owner.tokenizeAndStem();
+  parsedQuestion.classifiedInput.subjectStems = subject.tokenizeAndStem();
+  parsedQuestion.classifiedInput.ownerStems   = owner.tokenizeAndStem();
 
-  log('You are asking about: ', parsedQuestion.subjectStems, '\n');
-  log('Owned by: ', parsedQuestion.ownerStems, '\n');
+  log('You are asking about: ', parsedQuestion.classifiedInput.subjectStems, '\n');
+  log('Owned by: ', parsedQuestion.classifiedInput.ownerStems, '\n');
 
-  if (parsedQuestion.subjectStems.length < 1) return parsedQuestion;
+  if (parsedQuestion.classifiedInput.subjectStems.length < 1) return parsedQuestion;
+
+  parsedQuestion.timeframe = detectTimeframe(parsedQuestion.classifiedInput);
 
   // if (
   //   parsedQuestion.subjectStems.length === 1 &&
@@ -52,10 +54,10 @@ export default (classifiedQuestion) => {
   */
 
   // Iterate through stems in the subject
-  for (let n = 0; n < parsedQuestion.subjectStems.length; n++) {
-    if (knownStems.includes(parsedQuestion.subjectStems[n])) {
-      parsedQuestion.knowledgeStem  = parsedQuestion.subjectStems[n];
-      parsedQuestion.knowledgeGroup = knowledge[parsedQuestion.subjectStems[n]];
+  for (let n = 0; n < parsedQuestion.classifiedInput.subjectStems.length; n++) {
+    if (knownStems.includes(parsedQuestion.classifiedInput.subjectStems[n])) {
+      parsedQuestion.knowledgeStem  = parsedQuestion.classifiedInput.subjectStems[n];
+      parsedQuestion.knowledgeGroup = knowledge[parsedQuestion.classifiedInput.subjectStems[n]];
       break;
     }
   }

@@ -15,6 +15,7 @@ export default async (input, next) => {
   }
 
   const classifiedSentence = speakeasy.classify(input);
+  classifiedSentence.original = input;
   classifiedSentence.taggedTokens = tagger.tag(classifiedSentence.tokens);
 
   log('I heard: \n', classifiedSentence, '\n');
