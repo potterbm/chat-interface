@@ -14,7 +14,7 @@ export const knowledgeGroups = {
 const stemMapping = {
   everyth : knowledgeGroups.status,
   jok     : knowledgeGroups.joke,
-  server  : knowledgeGroups.status,
+  serv    : knowledgeGroups.status,
 };
 
 export const knownStems = Object.keys(stemMapping);

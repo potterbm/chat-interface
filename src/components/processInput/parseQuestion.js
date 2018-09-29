@@ -14,8 +14,16 @@ export default (classifiedInput) => {
   };
 
   natural.LancasterStemmer.attach();
-  parsedQuestion.classifiedInput.subjectStems = subject.tokenizeAndStem();
-  parsedQuestion.classifiedInput.ownerStems   = owner.tokenizeAndStem();
+  parsedQuestion.classifiedInput.subjectStems = [];
+  parsedQuestion.classifiedInput.ownerStems   = [];
+
+  if (subject !== undefined) {
+    parsedQuestion.classifiedInput.subjectStems = subject.tokenizeAndStem();
+  }
+
+  if (owner !== undefined) {
+    parsedQuestion.classifiedInput.ownerStems   = owner.tokenizeAndStem();
+  }
 
   log('You are asking about: ', parsedQuestion.classifiedInput.subjectStems, '\n');
   log('Owned by: ', parsedQuestion.classifiedInput.ownerStems, '\n');
@@ -23,15 +31,6 @@ export default (classifiedInput) => {
   if (parsedQuestion.classifiedInput.subjectStems.length < 1) return parsedQuestion;
 
   parsedQuestion.timeframe = detectTimeframe(parsedQuestion.classifiedInput);
-
-  // if (
-  //   parsedQuestion.subjectStems.length === 1 &&
-  //   knownStems.includes(parsedQuestion.subjectStems)
-  // ) {
-  //   parsedQuestion.knowledgeStem = parsedQuestion.subjectStems[0];
-  //   parsedQuestion.knowledgeGroup = knowledge[parsedQuestion.subjectStems[0]];
-  //   return parsedQuestion;
-  // }
 
   /*
   Here it seems to make sense to classify questions into a few categories to be able to reason
@@ -57,7 +56,7 @@ export default (classifiedInput) => {
   for (let n = 0; n < parsedQuestion.classifiedInput.subjectStems.length; n++) {
     if (knownStems.includes(parsedQuestion.classifiedInput.subjectStems[n])) {
       parsedQuestion.knowledgeStem  = parsedQuestion.classifiedInput.subjectStems[n];
-      parsedQuestion.knowledgeGroup = knowledge[parsedQuestion.classifiedInput.subjectStems[n]];
+      parsedQuestion.knowledgeGroup = knowledge[parsedQuestion.knowledgeStem];
       break;
     }
   }

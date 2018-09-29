@@ -15,7 +15,9 @@ function subjectVerbInversion(taggedTokens) {
   const verbIndex = findAuxiliaryVerbIndex(taggedTokens);
   const subjectIndex = indexOfPOS(taggedTokens, 'PRP');
 
-  return verbIndex < subjectIndex && auxiliaryVerbs.includes(taggedTokens[verbIndex][0]);
+  return verbIndex < subjectIndex &&
+    verbIndex > -1 &&
+    auxiliaryVerbs.includes(taggedTokens[verbIndex][0]);
 }
 
 export default (classifiedSentence) => {
@@ -27,6 +29,10 @@ export default (classifiedSentence) => {
 
   // Subject–auxiliary inversion
   if (subjectVerbInversion(classifiedSentence.taggedTokens)) return true;
+
+  // Imperative questions - Tell me a joke
+
+  // Tag questions - It is raining, isn't it?
 
   return false;
 };

@@ -9,25 +9,43 @@ function findUnitOfTime(stems) {
   return -1;
 }
 
-function getDurationBeforeIndex(stems, index) {
-  let sum = 0;
+function getDurationFromStems(stems, timeframe) {
+  timeframe.duration = 0;
+  timeframe.durationStems = [];
 
-  for (let n = index - 1; n >= 0; n--) {
-    if (stemToNumber(stems[n]) !== undefined) sum += stemToNumber(stems[n]);
-    else break;
+  // Time ago
+  if (stems[timeframe.unitOfTimeIndex + 1] === 'go') {
+    // keep duration inferred as 1 day, transition the duration code to change the start time
   }
 
-  return sum;
+  let n;
+  for (n = timeframe.unitOfTimeIndex - 1; n >= 0; n--) {
+    if (stemToNumber(stems[n]) === undefined) break;
+
+    timeframe.duration += stemToNumber(stems[n]);
+    timeframe.durationStems.push(stems[n]);
+  }
+
+  if (stems[n] === 'last') {
+    // set start to now - (duration * unitOfTime)
+  }
+
+  timeframe.durationStartIndex = n + 1;
 }
 
 export default (classifiedInput) => {
   const unitOfTimeIndex = findUnitOfTime(classifiedInput.ownerStems);
   const unitOfTime = classifiedInput.ownerStems[unitOfTimeIndex];
 
-  let duration = 1;
+  const timeframe = {
+    unitOfTime,
+    unitOfTimeIndex,
+  };
+
+  timeframe.duration = 1;
   if (unitOfTimeIndex > 0) {
-    duration = getDurationBeforeIndex(classifiedInput.ownerStems, unitOfTimeIndex);
+    getDurationFromStems(classifiedInput.ownerStems, timeframe);
   }
 
-  return { duration, unitOfTime };
+  return timeframe;
 };
