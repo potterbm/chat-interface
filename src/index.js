@@ -1,4 +1,4 @@
-import getShell   from './components/shell';
+import getShell from './components/shell';
 
 let shell = null;
 

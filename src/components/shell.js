@@ -17,8 +17,9 @@ export default (promptCallback) => {
   });
 
   rl.on('close', closeHandler);
-  rl.on('line', lineHandler(promptCallback));
   rl.on('SIGINT', closeHandler);
+
+  rl.on('line', lineHandler(promptCallback));
 
   return rl;
 };
