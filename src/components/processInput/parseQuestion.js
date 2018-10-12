@@ -25,8 +25,8 @@ export default (classifiedInput) => {
     parsedQuestion.classifiedInput.ownerStems   = owner.tokenizeAndStem();
   }
 
-  log('You are asking about: ', parsedQuestion.classifiedInput.subjectStems, '\n');
-  log('Owned by: ', parsedQuestion.classifiedInput.ownerStems, '\n');
+  log('Subjects: ', parsedQuestion.classifiedInput.subjectStems, '\n');
+  log('Owners: ', parsedQuestion.classifiedInput.ownerStems, '\n');
 
   if (parsedQuestion.classifiedInput.subjectStems.length < 1) return parsedQuestion;
 
