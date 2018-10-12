@@ -19,7 +19,7 @@ export default (input) => {
   if (input === 'done') {
     settings.set('mode', 'normal');
     shell().setPrompt(promptChar());
-    displayMessage('Admin mode discontinued');
+    displayMessage('Admin mode: offline.');
     return;
   }
 
