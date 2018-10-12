@@ -1,29 +1,25 @@
-import alterSettings   from '../alterSettings';
-import detectQuestion  from './detectQuestion';
-import formulateAnswer from '../formulateAnswer';
-import log             from '../../lib/log';
-import parseQuestion   from './parseQuestion';
-import settings        from '../../constants/settings';
-import speakeasy       from 'speakeasy-nlp';
-import tagger          from '../../lib/POSTagger';
+import detectQuestion from './detectQuestion';
+import log            from '../../lib/log';
+import parseQuestion  from './parseQuestion';
+import speakeasy      from 'speakeasy-nlp';
+import tagger         from '../../lib/POSTagger';
 
-export default async (input, next) => {
-  if (settings.get('mode') === 'admin' || input === 'set mode') {
-    alterSettings(input);
-    next();
-    return;
+export default (input) => {
+  let parsedInput = {
+    classifiedSentence : speakeasy.classify(input),
+    knowledgeGroup     : null,
+    knowledgeStem      : null,
+    timeframe          : null,
+  };
+
+  parsedInput.classifiedSentence.original = input;
+  parsedInput.classifiedSentence.taggedTokens = tagger.tag(parsedInput.classifiedSentence.tokens);
+
+  log('classifiedSentence: \n', parsedInput.classifiedSentence, '\n');
+
+  if (detectQuestion(parsedInput.classifiedSentence)) {
+    parsedInput = parseQuestion(parsedInput.classifiedSentence);
   }
 
-  const classifiedSentence = speakeasy.classify(input);
-  classifiedSentence.original = input;
-  classifiedSentence.taggedTokens = tagger.tag(classifiedSentence.tokens);
-
-  log('I heard: \n', classifiedSentence, '\n');
-
-  if (detectQuestion(classifiedSentence)) {
-    const parsedQuestion = parseQuestion(classifiedSentence);
-    await formulateAnswer(parsedQuestion);
-  }
-
-  next();
+  return parsedInput;
 };
