@@ -3,7 +3,7 @@ import formulateAnswer      from '../components/formulateAnswer';
 import log                  from '../lib/log';
 import processInput         from '../components/processInput';
 import searchKnowledgeGraph from '../components/searchKnowledgeGraph';
-import settings             from '../constants/settings';
+import settings             from '../lib/settings';
 
 export default (next) => async (input) => {
   if (settings.get('mode') === 'admin' || input === 'set mode') {

@@ -1,6 +1,6 @@
 import displayMessage from './displayMessage';
 import promptChar     from '../constants/prompt';
-import settings       from '../constants/settings';
+import settings       from '../lib/settings';
 import shell          from './shell';
 
 export default (input) => {
