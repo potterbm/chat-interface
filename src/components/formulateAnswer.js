@@ -7,7 +7,7 @@ export default async (parsedQuestion) => {
     return displayMessage(cannedResponses.question.confusion);
   }
 
-  if (parsedQuestion.knowledgeGroup === null) {
+  if (parsedQuestion.knowledge === null) {
     return displayMessage(cannedResponses.question.ignorance);
   }
 
