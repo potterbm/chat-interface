@@ -27,6 +27,7 @@
     "no-restricted-globals"        : [2, "event"],
     "prefer-const"                 : 2,
     "function-paren-newline"       : [2, "consistent"],
+    "prefer-destructuring"         : [2, { array: false }],
 
     "max-len": [2, {
       "code"           : 100,

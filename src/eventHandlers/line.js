@@ -13,7 +13,7 @@ export default (next) => async (input) => {
   }
 
   const processedInput = processInput(input);
-  log('Processed Input:\n', processedInput, '\n');
+  // log('Processed Input:\n', processedInput, '\n');
 
   searchKnowledgeGraph(processedInput);
   log('Processed Input:\n', processedInput, '\n');
